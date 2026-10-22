@@ -23,6 +23,10 @@ if (!secret || secret === 'change-this-to-a-long-random-string') {
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+app.use(cors({
+  origin: 'https://your-frontend.vercel.app',
+  credentials: true
+}));
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
