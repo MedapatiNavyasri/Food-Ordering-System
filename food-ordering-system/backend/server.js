@@ -40,11 +40,11 @@ app.use(session({
   saveUninitialized: false,
   store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI, ttl: 7 * 24 * 60 * 60 }),
   cookie: {
-    httpOnly: true,
-    sameSite: 'lax',
-    secure: process.env.COOKIE_SECURE === 'true',
-    maxAge: 7 * 24 * 60 * 60 * 1000
-  }
+  httpOnly: true,
+  sameSite: 'none',
+  secure: true,
+  maxAge: 7 * 24 * 60 * 60 * 1000
+}
 }));
 
 // API routes
