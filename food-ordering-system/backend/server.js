@@ -5,6 +5,7 @@ const fs = require('fs');
 const express = require('express');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
+const cors = require('cors');
 
 const connectDB = require('./database');
 const authRoutes = require('./routes/authRoutes');
