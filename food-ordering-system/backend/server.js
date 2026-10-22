@@ -35,18 +35,27 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.json({ limit: '10kb' }));
 
 // Sessions are stored in MongoDB (collection "sessions")
+
 app.use(session({
-  secret,
+  name: 'connect.sid',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
-  store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI, ttl: 7 * 24 * 60 * 60 }),
+  rolling: true,
+  proxy: true,
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGODB_URI,
+    ttl: 7 * 24 * 60 * 60
+  }),
   cookie: {
-  httpOnly: true,
-  sameSite: 'none',
-  secure: true,
-  maxAge: 7 * 24 * 60 * 60 * 1000
-}
+    httpOnly: true,
+    secure: true,
+    sameSite: 'none',
+    path: '/',
+    maxAge: 7 * 24 * 60 * 60 * 1000
+  }
 }));
+
 
 // API routes
 app.use('/api/auth', authRoutes);
