@@ -1,0 +1,9 @@
+
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://food-ordering-system-t03m.onrender.com/api/:path*"
+    }
+  ]
+}
