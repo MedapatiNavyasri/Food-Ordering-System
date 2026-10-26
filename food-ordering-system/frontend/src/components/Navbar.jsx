@@ -4,12 +4,11 @@ import { useCart } from './CartContext.jsx';
 
 function Navbar() {
   const { user, logout } = useAuth();
-  const { totalItems, clearCart } = useCart();
+  const { totalItems } = useCart();
   const navigate = useNavigate();
 
   async function handleLogout() {
     await logout();
-    clearCart(); // so the next person using this browser starts with an empty cart
     navigate('/');
   }
 

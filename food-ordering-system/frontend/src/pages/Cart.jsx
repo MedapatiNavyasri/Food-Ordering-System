@@ -5,7 +5,7 @@ import FoodImage from '../components/FoodImage.jsx';
 import { rupees, MAX_QTY } from '../helpers.js';
 
 function Cart() {
-  const { items, totalAmount, changeQuantity, removeItem, checkCart, fixCart } = useCart();
+  const { items, cartLoading, totalAmount, changeQuantity, removeItem, checkCart, fixCart } = useCart();
   const navigate = useNavigate();
   const [issues, setIssues] = useState([]);
   const [checking, setChecking] = useState(false);
@@ -13,6 +13,7 @@ function Cart() {
 
   // When the cart changes, compare it with the latest menu from the database
   useEffect(() => {
+    if (cartLoading) return;
     if (items.length === 0) {
       setIssues([]);
       return;
@@ -26,11 +27,20 @@ function Cart() {
       .catch((err) => setCheckError(err.message))
       .finally(() => setChecking(false));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [items.length]);
+  }, [items.length, cartLoading]);
 
   function handleFixCart() {
     fixCart(issues);
     setIssues([]);
+  }
+
+  if (cartLoading) {
+    return (
+      <div className="container">
+        <h2 className="section-title">Your Cart</h2>
+        <p className="message">Loading your cart...</p>
+      </div>
+    );
   }
 
   if (items.length === 0) {

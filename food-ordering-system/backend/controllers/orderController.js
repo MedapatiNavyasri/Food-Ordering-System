@@ -89,7 +89,8 @@ exports.placeOrder = async (req, res, next) => {
       status: 'Pending'
     });
 
-    res.status(201).json({ message: 'Order placed successfully!', order });
+        // The order is saved, so empty the customer's saved cart
+    await User.updateOne({ _id: req.user._id }, { $set: { cart: [] } });
   } catch (err) {
     next(err);
   }

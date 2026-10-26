@@ -7,7 +7,7 @@ import { rupees, cleanPhone } from '../helpers.js';
 
 function Checkout() {
   const { user } = useAuth();
-  const { items, totalAmount, clearCart, checkCart } = useCart();
+  const { items, cartLoading, totalAmount, clearCart, checkCart } = useCart();
 
   const [form, setForm] = useState({
     customerName: user ? user.name : '',
@@ -22,6 +22,7 @@ function Checkout() {
 
   // Check the cart against the current menu before the customer pays
   useEffect(() => {
+    if (cartLoading) return; // wait until the saved cart is loaded
     if (items.length === 0) {
       setChecking(false);
       return;
@@ -31,7 +32,7 @@ function Checkout() {
       .catch((err) => setError(err.message))
       .finally(() => setChecking(false));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [cartLoading]);
 
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -75,6 +76,15 @@ function Checkout() {
       setError(err.message);
       setSubmitting(false);
     }
+  }
+
+  if (cartLoading) {
+    return (
+      <div className="container">
+        <h2 className="section-title">Checkout</h2>
+        <p className="message">Loading your cart...</p>
+      </div>
+    );
   }
 
   if (items.length === 0) {

@@ -11,6 +11,7 @@ const connectDB = require('./database');
 const authRoutes = require('./routes/authRoutes');
 const foodRoutes = require('./routes/foodRoutes');
 const orderRoutes = require('./routes/orderRoutes');
+const cartRoutes = require('./routes/cartRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const orderController = require('./controllers/orderController');
 
@@ -61,6 +62,7 @@ app.use(session({
 app.use('/api/auth', authRoutes);
 app.use('/api/foods', foodRoutes);
 app.use('/api/orders', orderRoutes);
+app.use('/api/cart', cartRoutes);
 app.use('/api/admin', adminRoutes);
 
 // Server-rendered (EJS) order confirmation page
